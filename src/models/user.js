@@ -1,4 +1,5 @@
 const mongoose = require('../database');
+const bcript = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
 
@@ -22,6 +23,15 @@ const UserSchema = new mongoose.Schema({
         default: Date.now,
     }
 
+});
+
+UserSchema.pre('save', async function(next) {
+
+    //passa a senha para criptar e 10 é o numero de vezes em que o hash e gerado para ser senha mais forte
+    const hash = await bcript.hash(this.password, 10);
+    this.password = hash;
+
+    next();
 });
 
 const User = mongoose.model('User', UserSchema);
