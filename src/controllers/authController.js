@@ -8,6 +8,8 @@ router.post('/register', async (req, res) => {
 
     const { email } = req.body;
 
+    console.log(req + 'Cheguei aqui!');
+
     try {
 
         if (await User.findOne({ email })) {
